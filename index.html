@@ -3,57 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Page Creation - Contrast Edition</title>
+    <title>Page Creation - Modern Design</title>
     <style>
-        /* --- ESTILO PREMIUM RECARGADO & CRISTAL --- */
+        /* --- DISEÑO MINIMALISTA MODERNIZADO --- */
         :root {
-            --primary-glow: rgba(255, 255, 255, 0.15);
-            --accent-color: #ffffff;
-            --glass-bg: rgba(255, 255, 255, 0.03);
-            --border-color: rgba(255, 255, 255, 0.12);
+            --accent: #ffffff;
+            --bg-dark: #0a0a0a;
+            --glass: rgba(255, 255, 255, 0.03);
+            --border: rgba(255, 255, 255, 0.1);
+            --text-secondary: rgba(255, 255, 255, 0.6);
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
-            cursor: none; /* Ocultamos el cursor real */
+            font-family: 'SF Pro Display', 'Inter', system-ui, -apple-system, sans-serif;
+            cursor: none;
         }
 
         body {
+            background-color: var(--bg-dark);
+            height: 100vh;
             overflow: hidden;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            background-color: #000; /* Fondo negro puro */
+            color: white;
         }
 
-        /* CURSOR CON EFECTO INVERSIÓN (DIFERENCIA) */
+        /* CURSOR ANILLO (Efecto Lente) */
         #custom-cursor {
-            width: 20px;
-            height: 20px;
-            background-color: #fff; /* Blanco puro para máxima diferencia */
+            width: 30px;
+            height: 30px;
+            border: 1px solid var(--accent);
             border-radius: 50%;
             position: fixed;
             pointer-events: none;
             z-index: 10000;
-            /* TRANSICIÓN SÓLO PARA TAMAÑO */
-            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: transform 0.15s cubic-bezier(0.2, 0, 0.2, 1), 
+                        background 0.3s ease, 
+                        width 0.3s ease, 
+                        height 0.3s ease;
             transform: translate(-50%, -50%);
-            
-            /* ESTA ES LA CLAVE: Invierte el color de fondo */
-            mix-blend-mode: difference; 
+            /* Solo invierte lo que toca el borde y un fondo muy tenue */
+            mix-blend-mode: difference;
         }
 
-        /* FONDO Y EFECTOS */
+        #custom-cursor.active {
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 1); /* Se llena de blanco */
+            mix-blend-mode: difference; /* Esto hará que el blanco sobre blanco se vea NEGRO */
+        }
+
+        /* FONDO DINÁMICO */
         .video-background {
             position: fixed;
             top: 0; left: 0;
             width: 100%; height: 100%;
             z-index: -2;
-            filter: saturate(1.3) brightness(0.8); /* Más brillo y color */
+            filter: brightness(0.5) contrast(1.1);
         }
 
         .video-background iframe {
@@ -68,84 +78,68 @@
             position: fixed;
             top: 0; left: 0;
             width: 100%; height: 100%;
-            /* Reducimos la opacidad del negro para que no se vea opaco */
-            background: radial-gradient(circle at center, transparent 0%, rgba(0,0,0,0.5) 100%);
+            background: radial-gradient(circle at center, transparent 0%, rgba(0,0,0,0.8) 100%);
             z-index: -1;
         }
 
-        .ambient-glow {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: 
-                radial-gradient(circle at 20% 30%, rgba(100, 50, 255, 0.15) 0%, transparent 50%),
-                radial-gradient(circle at 80% 70%, rgba(255, 50, 150, 0.15) 0%, transparent 50%);
-            z-index: -1;
-        }
-
-        /* CONTENEDOR Y PANELES */
+        /* CONTENEDORES */
         .main-container {
             position: relative;
             z-index: 1;
             display: flex;
             flex-direction: column;
-            gap: 25px;
-            width: 95%;
-            max-width: 440px;
-            perspective: 1500px;
+            gap: 20px;
+            width: 90%;
+            max-width: 450px;
+            perspective: 1000px;
         }
 
         .glass-panel {
-            padding: 3.5rem 2.5rem;
-            /* Un poco más de contraste en el cristal */
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(20px) saturate(180%);
-            -webkit-backdrop-filter: blur(20px) saturate(180%);
-            border-radius: 32px;
-            border: 1px solid var(--border-color);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+            background: var(--glass);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid var(--border);
+            border-radius: 30px;
+            padding: 40px;
             text-align: center;
-            transform-style: preserve-3d;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
         }
 
         h1 {
-            color: #fff;
-            font-size: 1.6rem;
             font-weight: 200;
-            letter-spacing: 7px;
-            margin-bottom: 2.5rem;
+            font-size: 1.8rem;
+            letter-spacing: 6px;
             text-transform: uppercase;
-            background: linear-gradient(to bottom, #fff 0%, #aaa 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            margin-bottom: 35px;
+            opacity: 0.9;
         }
 
+        /* BOTONES MODERNOS */
         .button-list {
             display: flex;
             flex-direction: column;
-            gap: 1.2rem;
+            gap: 12px;
         }
 
         .btn {
-            display: block;
-            padding: 16px;
-            color: #fff; /* Texto blanco siempre visible */
+            padding: 18px;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            background: rgba(255, 255, 255, 0.02);
+            color: white;
             text-decoration: none;
             font-size: 0.9rem;
-            font-weight: 500;
-            letter-spacing: 2px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 16px;
-            background: rgba(255, 255, 255, 0.05);
-            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
         }
 
         .btn:hover {
-            color: #fff !important; /* Mantenemos texto blanco */
-            background: rgba(255, 255, 255, 0.15) !important; /* Hover sutil para no romper la inversión */
+            background: white;
+            color: black;
+            border-color: white;
             transform: translateY(-2px);
-            border-color: rgba(255, 255, 255, 0.5);
-            box-shadow: 0 10px 30px rgba(255, 255, 255, 0.1);
         }
 
         /* DROPDOWNS */
@@ -154,103 +148,92 @@
         .dropdown-content {
             position: absolute;
             left: 105%;
-            top: 50%;
-            transform: translateY(-50%);
+            top: 0;
             display: flex;
             flex-direction: column;
-            gap: 10px;
-            pointer-events: none;
-            visibility: hidden;
-            z-index: 10;
-        }
-
-        .btn-sub {
-            width: 180px;
-            padding: 12px;
-            font-size: 0.8rem;
-            background: rgba(20, 20, 20, 0.9) !important; /* Fondo oscuro para contraste */
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: #fff !important;
+            gap: 8px;
             opacity: 0;
-            transform: translateX(-15px);
+            visibility: hidden;
+            transform: translateX(-10px);
             transition: all 0.3s ease;
         }
 
         .dropdown:hover .dropdown-content {
-            pointer-events: auto;
-            visibility: visible;
-        }
-
-        .dropdown:hover .btn-sub {
             opacity: 1;
+            visibility: visible;
             transform: translateX(0);
         }
 
-        .btn-sub:hover {
-            background: rgba(255, 255, 255, 0.2) !important;
+        .btn-sub {
+            width: 160px;
+            padding: 12px;
+            font-size: 0.8rem;
+            background: rgba(0,0,0,0.8);
+            border: 1px solid var(--border);
         }
 
-        /* INSTRUCCIONES */
+        /* PANEL INFERIOR */
         .instruction-panel {
-            background: var(--glass-bg);
+            background: var(--glass);
             backdrop-filter: blur(15px);
-            border-radius: 24px;
-            border: 1px solid var(--border-color);
-            padding: 1.8rem;
-            text-align: center;
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 25px;
         }
 
         .lang-container {
-            display: flex; gap: 10px; margin-bottom: 15px;
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
         }
 
         .btn-lang {
-            flex: 1; padding: 10px; font-size: 0.75rem; text-transform: uppercase;
+            flex: 1;
+            padding: 8px;
+            background: transparent;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            border-radius: 10px;
         }
 
         .instruction-content {
-            background: rgba(0, 0, 0, 0.6); /* Más oscuro para leer mejor */
-            border-radius: 15px;
-            padding: 1.2rem;
+            background: rgba(0,0,0,0.4);
+            padding: 15px;
+            border-radius: 12px;
             font-size: 0.85rem;
             line-height: 1.6;
-            color: rgba(255, 255, 255, 0.8);
-            max-height: 150px;
-            overflow-y: auto;
-            text-align: left;
+            color: var(--text-secondary);
+            min-height: 80px;
         }
     </style>
 </head>
 <body>
 
     <div id="custom-cursor"></div>
-    <div class="ambient-glow"></div>
 
     <div class="video-background">
-        <iframe src="https://www.youtube.com/embed/KHrVwCrtZFY?autoplay=1&mute=1&loop=1&playlist=KHrVwCrtZFY&controls=0&showinfo=0&rel=0&modestbranding=1" frameborder="0" allow="autoplay; encrypted-media"></iframe>
+        <iframe src="https://www.youtube.com/embed/KHrVwCrtZFY?autoplay=1&mute=1&loop=1&playlist=KHrVwCrtZFY&controls=0&showinfo=0&rel=0&modestbranding=1" frameborder="0"></iframe>
     </div>
 
     <div class="overlay"></div>
 
     <div class="main-container">
         <div class="glass-panel">
-            <h1>Page Creation</h1>
+            <h1>Create</h1>
             <nav class="button-list">
                 <div class="dropdown">
-                    <a href="https://ai-delta-eosin.vercel.app/" target="_blank" class="btn">IA</a>
+                    <a href="#" class="btn">Inteligencia Artificial</a>
                     <div class="dropdown-content">
-                        <a href="https://gemini.google.com/app?hl=es" target="_blank" class="btn btn-sub">Google Gemini</a>
-                        <a href="https://hackerai.co/" target="_blank" class="btn btn-sub">HackerAI</a>
-                        <a href="https://claude.ai/new" target="_blank" class="btn btn-sub">ClaudeAI</a>
+                        <a href="https://gemini.google.com/" target="_blank" class="btn btn-sub">Gemini</a>
                         <a href="https://chatgpt.com/" target="_blank" class="btn btn-sub">ChatGPT</a>
+                        <a href="https://claude.ai/" target="_blank" class="btn btn-sub">Claude</a>
                     </div>
                 </div>
 
                 <div class="dropdown">
                     <a href="https://github.com/" target="_blank" class="btn">GitHub</a>
                     <div class="dropdown-content">
-                        <a href="https://github.com/new" target="_blank" class="btn btn-sub">Nuevo Repositorio</a>
+                        <a href="https://github.com/new" target="_blank" class="btn btn-sub">New Repo</a>
                     </div>
                 </div>
 
@@ -261,11 +244,11 @@
 
         <div class="instruction-panel">
             <div class="lang-container">
-                <button class="btn btn-lang" onclick="setLang('es')">Español</button>
-                <button class="btn btn-lang" onclick="setLang('en')">English</button>
+                <button class="btn btn-lang" onclick="setLang('es')">ES</button>
+                <button class="btn btn-lang" onclick="setLang('en')">EN</button>
             </div>
             <div id="text-target" class="instruction-content">
-                <p style="opacity: 0.5; text-align: center; font-size: 0.8rem;">Select language for tutorial</p>
+                Selecciona un idioma para ver los pasos.
             </div>
         </div>
     </div>
@@ -273,46 +256,37 @@
     <script>
         const cursor = document.getElementById('custom-cursor');
 
-        // Movimiento del cursor
+        // Movimiento del cursor con suavizado
         document.addEventListener('mousemove', e => {
             cursor.style.left = e.clientX + 'px';
             cursor.style.top = e.clientY + 'px';
         });
 
-        // Lógica del cursor: Sólo cambiamos TAMAÑO, el color lo hace el CSS mix-blend-mode
-        function updateCursorListeners() {
-            const elements = document.querySelectorAll('a, button');
-            elements.forEach(el => {
-                el.addEventListener('mouseenter', () => {
-                    // Agranda el cursor
-                    cursor.style.transform = 'translate(-50%, -50%) scale(2)';
-                });
-                el.addEventListener('mouseleave', () => {
-                    // Vuelve al tamaño normal
-                    cursor.style.transform = 'translate(-50%, -50%) scale(1)';
-                });
+        // Eventos para agrandar y llenar el cursor
+        function updateCursor() {
+            const links = document.querySelectorAll('a, button');
+            links.forEach(link => {
+                link.addEventListener('mouseenter', () => cursor.classList.add('active'));
+                link.addEventListener('mouseleave', () => cursor.classList.remove('active'));
             });
         }
-        updateCursorListeners();
+        updateCursor();
 
-        // Parallax suave
-        const glass = document.querySelector('.glass-panel');
-        const instruct = document.querySelector('.instruction-panel');
+        // Parallax sutil del panel
+        const container = document.querySelector('.main-container');
         document.addEventListener('mousemove', e => {
-            const xAxis = (window.innerWidth / 2 - e.pageX) / 80;
-            const yAxis = (window.innerHeight / 2 - e.pageY) / 80;
-            if(glass) glass.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
-            if(instruct) instruct.style.transform = `rotateY(${xAxis * 1.1}deg) rotateX(${yAxis * 1.1}deg)`;
+            const x = (window.innerWidth / 2 - e.pageX) / 50;
+            const y = (window.innerHeight / 2 - e.pageY) / 50;
+            container.style.transform = `rotateY(${x}deg) rotateX(${y}deg)`;
         });
 
-        // Contenidos
         const content = {
-            es: `INSTRUCCIONES:\n1. Solicita a una IA el código HTML.\n2. Crea un repositorio en GitHub.\n3. Añade un "index.html" con el código.\n4. Conecta tu GitHub a Vercel y despliega el proyecto.`,
-            en: `INSTRUCTIONS:\n1. Ask an AI for the HTML code.\n2. Create a GitHub repository.\n3. Add an "index.html" file.\n4. Connect GitHub to Vercel and deploy.`
+            es: "1. Pide el código a la IA.\n2. Súbelo a GitHub (index.html).\n3. Despliega en Vercel.",
+            en: "1. Get code from AI.\n2. Upload to GitHub (index.html).\n3. Deploy via Vercel."
         };
 
-        function setLang(lang) {
-            document.getElementById('text-target').innerText = content[lang];
+        function setLang(l) {
+            document.getElementById('text-target').innerText = content[l];
         }
     </script>
 </body>
