@@ -40,8 +40,8 @@
             position: fixed;
             top: 0; left: 0;
             width: 100%; height: 100%;
-            background: radial-gradient(circle at 10% 10%, rgba(30, 144, 255, 0.15) 0%, transparent 40%),
-                        radial-gradient(circle at 90% 90%, rgba(138, 43, 226, 0.15) 0%, transparent 40%);
+            background: radial-gradient(circle at 10% 10%, rgba(220, 20, 60, 0.15) 0%, transparent 40%),
+                        radial-gradient(circle at 90% 90%, rgba(139, 0, 0, 0.15) 0%, transparent 40%);
             z-index: -1;
             pointer-events: none;
             animation: glowMove 15s ease infinite alternate;
@@ -73,7 +73,7 @@
             position: fixed;
             top: 0; left: 0;
             width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0.4);
             z-index: -1;
         }
 
@@ -242,7 +242,7 @@
     <div class="ambient-glow"></div>
 
     <div class="video-background">
-        <iframe src="https://www.youtube.com/embed/gxetb5bjA34?autoplay=1&mute=1&loop=1&playlist=gxetb5bjA34&controls=0&showinfo=0&rel=0&modestbranding=1&start=1&end=179" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        <iframe src="https://www.youtube.com/embed/KHrVwCrtZFY?autoplay=1&mute=1&loop=1&playlist=KHrVwCrtZFY&controls=0&showinfo=0&rel=0&modestbranding=1&start=0.3&end=13.7" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
     </div>
 
     <div class="overlay"></div>
@@ -298,12 +298,11 @@
             });
         });
 
-        // Parallax - Efecto reducido (divisores más altos)
+        // Parallax - Efecto sutil (divisor de 70)
         const glassPanel = document.querySelector('.glass-panel');
         const instructPanel = document.querySelector('.instruction-panel');
 
         document.addEventListener('mousemove', e => {
-            // Se han aumentado los divisores de 35 a 70 para reducir la inclinación a la mitad
             const xAxis = (window.innerWidth / 2 - e.pageX) / 70;
             const yAxis = (window.innerHeight / 2 - e.pageY) / 70;
 
