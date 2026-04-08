@@ -3,67 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Page Creation - Modern Design</title>
+    <title>Page Creation</title>
     <style>
-        /* --- DISEÑO MINIMALISTA MODERNIZADO --- */
-        :root {
-            --accent: #ffffff;
-            --bg-dark: #0a0a0a;
-            --glass: rgba(255, 255, 255, 0.03);
-            --border: rgba(255, 255, 255, 0.1);
-            --text-secondary: rgba(255, 255, 255, 0.6);
-        }
-
+        /* Reset de estilos */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'SF Pro Display', 'Inter', system-ui, -apple-system, sans-serif;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             cursor: none;
         }
 
         body {
-            background-color: var(--bg-dark);
-            height: 100vh;
             overflow: hidden;
             display: flex;
             justify-content: center;
             align-items: center;
-            color: white;
+            height: 100vh;
+            background-color: #000;
         }
 
-        /* CURSOR ANILLO (Efecto Lente) */
         #custom-cursor {
-            width: 30px;
-            height: 30px;
-            border: 1px solid var(--accent);
+            width: 20px;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.6);
             border-radius: 50%;
             position: fixed;
             pointer-events: none;
             z-index: 10000;
-            transition: transform 0.15s cubic-bezier(0.2, 0, 0.2, 1), 
-                        background 0.3s ease, 
-                        width 0.3s ease, 
-                        height 0.3s ease;
+            transition: transform 0.1s ease, background 0.2s ease;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
             transform: translate(-50%, -50%);
-            /* Solo invierte lo que toca el borde y un fondo muy tenue */
-            mix-blend-mode: difference;
         }
 
-        #custom-cursor.active {
-            width: 50px;
-            height: 50px;
-            background: rgba(255, 255, 255, 1); /* Se llena de blanco */
-            mix-blend-mode: difference; /* Esto hará que el blanco sobre blanco se vea NEGRO */
-        }
-
-        /* FONDO DINÁMICO */
-        .video-background {
+        .ambient-glow {
             position: fixed;
             top: 0; left: 0;
             width: 100%; height: 100%;
+            background: radial-gradient(circle at 10% 10%, rgba(220, 20, 60, 0.15) 0%, transparent 40%),
+                        radial-gradient(circle at 90% 90%, rgba(139, 0, 0, 0.15) 0%, transparent 40%);
+            z-index: -1;
+            pointer-events: none;
+            animation: glowMove 15s ease infinite alternate;
+        }
+
+        @keyframes glowMove {
+            0% { transform: scale(1); opacity: 0.8; }
+            100% { transform: scale(1.1); opacity: 1; }
+        }
+
+        .video-background {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
             z-index: -2;
-            filter: brightness(0.5) contrast(1.1);
+            pointer-events: none;
+            overflow: hidden;
         }
 
         .video-background iframe {
@@ -78,11 +73,10 @@
             position: fixed;
             top: 0; left: 0;
             width: 100%; height: 100%;
-            background: radial-gradient(circle at center, transparent 0%, rgba(0,0,0,0.8) 100%);
+            background: rgba(0, 0, 0, 0.4);
             z-index: -1;
         }
 
-        /* CONTENEDORES */
         .main-container {
             position: relative;
             z-index: 1;
@@ -90,150 +84,187 @@
             flex-direction: column;
             gap: 20px;
             width: 90%;
-            max-width: 450px;
+            max-width: 420px;
+            align-items: center;
             perspective: 1000px;
+            animation: containerAppear 1s ease-out;
+        }
+
+        @keyframes containerAppear {
+            from { opacity: 0; transform: translateY(20px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
         }
 
         .glass-panel {
-            background: var(--glass);
-            backdrop-filter: blur(25px);
-            -webkit-backdrop-filter: blur(25px);
-            border: 1px solid var(--border);
-            border-radius: 30px;
-            padding: 40px;
+            padding: 3rem;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 28px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
             text-align: center;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+            transition: transform 0.1s ease;
+            transform-style: preserve-3d;
         }
 
         h1 {
-            font-weight: 200;
-            font-size: 1.8rem;
-            letter-spacing: 6px;
+            color: #fff;
+            font-size: 2.2rem;
+            font-weight: 300;
+            letter-spacing: 5px;
+            margin-bottom: 3rem;
             text-transform: uppercase;
-            margin-bottom: 35px;
-            opacity: 0.9;
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.4);
         }
 
-        /* BOTONES MODERNOS */
         .button-list {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 1.3rem;
         }
 
         .btn {
-            padding: 18px;
-            border-radius: 16px;
-            border: 1px solid var(--border);
-            background: rgba(255, 255, 255, 0.02);
-            color: white;
+            display: block;
+            padding: 16px;
+            color: rgba(255, 255, 255, 0.9);
             text-decoration: none;
-            font-size: 0.9rem;
-            letter-spacing: 1px;
-            transition: all 0.3s ease;
+            font-size: 1.05rem;
+            font-weight: 400;
+            letter-spacing: 1.5px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 14px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            background: rgba(255, 255, 255, 0.01);
             position: relative;
-            overflow: hidden;
+            z-index: 5;
         }
 
         .btn:hover {
-            background: white;
-            color: black;
-            border-color: white;
-            transform: translateY(-2px);
+            background: rgba(255, 255, 255, 0.08);
+            color: #fff;
+            transform: scale(1.03) translateZ(20px);
+            border-color: rgba(255, 255, 255, 0.6);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
         }
 
-        /* DROPDOWNS */
-        .dropdown { position: relative; }
+        .dropdown {
+            position: relative;
+        }
 
         .dropdown-content {
             position: absolute;
-            left: 105%;
-            top: 0;
+            left: 100%;
+            top: 50%;
+            transform: translateY(-50%);
             display: flex;
             flex-direction: column;
-            gap: 8px;
-            opacity: 0;
+            gap: 12px;
+            padding-left: 15px;
+            pointer-events: none;
             visibility: hidden;
-            transform: translateX(-10px);
-            transition: all 0.3s ease;
-        }
-
-        .dropdown:hover .dropdown-content {
-            opacity: 1;
-            visibility: visible;
-            transform: translateX(0);
+            z-index: 10;
         }
 
         .btn-sub {
-            width: 160px;
-            padding: 12px;
-            font-size: 0.8rem;
-            background: rgba(0,0,0,0.8);
-            border: 1px solid var(--border);
+            width: 170px;
+            padding: 11px;
+            font-size: 0.88rem;
+            opacity: 0;
+            transform: translateX(-10px);
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        /* PANEL INFERIOR */
+        .dropdown:hover .dropdown-content {
+            pointer-events: auto;
+            visibility: visible;
+        }
+
+        .dropdown:hover .btn-sub {
+            opacity: 1;
+            transform: translateX(0);
+            animation: floating 3.5s ease-in-out infinite;
+        }
+
+        .dropdown:hover .btn-sub:nth-child(1) { transition-delay: 0.1s; animation-delay: 0s; }
+        .dropdown:hover .btn-sub:nth-child(2) { transition-delay: 0.2s; animation-delay: 0.6s; }
+        .dropdown:hover .btn-sub:nth-child(3) { transition-delay: 0.3s; animation-delay: 1.2s; }
+        .dropdown:hover .btn-sub:nth-child(4) { transition-delay: 0.4s; animation-delay: 1.8s; }
+
+        @keyframes floating {
+            0% { transform: translateY(0px) translateX(0px); }
+            50% { transform: translateY(-6px) translateX(3px); }
+            100% { transform: translateY(0px) translateX(0px); }
+        }
+
         .instruction-panel {
-            background: var(--glass);
+            width: 100%;
+            background: rgba(255, 255, 255, 0.04);
             backdrop-filter: blur(15px);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 25px;
+            -webkit-backdrop-filter: blur(15px);
+            border-radius: 22px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 1.8rem;
+            color: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+            transition: transform 0.1s ease;
         }
 
         .lang-container {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 15px;
+            display: flex; gap: 12px; margin-bottom: 1.2rem;
         }
 
-        .btn-lang {
-            flex: 1;
-            padding: 8px;
-            background: transparent;
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            border-radius: 10px;
-        }
+        .btn-lang { flex: 1; padding: 7px; font-size: 0.8rem; text-transform: uppercase; }
 
         .instruction-content {
-            background: rgba(0,0,0,0.4);
-            padding: 15px;
-            border-radius: 12px;
-            font-size: 0.85rem;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 1.2rem;
+            border-radius: 14px;
+            font-size: 0.9rem;
             line-height: 1.6;
-            color: var(--text-secondary);
-            min-height: 80px;
+            max-height: 160px;
+            overflow-y: auto;
+            white-space: pre-line;
+            text-align: left;
         }
+
+        .instruction-content::-webkit-scrollbar { width: 4px; }
+        .instruction-content::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.15); border-radius: 10px; }
     </style>
 </head>
 <body>
 
     <div id="custom-cursor"></div>
+    <div class="ambient-glow"></div>
 
     <div class="video-background">
-        <iframe src="https://www.youtube.com/embed/KHrVwCrtZFY?autoplay=1&mute=1&loop=1&playlist=KHrVwCrtZFY&controls=0&showinfo=0&rel=0&modestbranding=1" frameborder="0"></iframe>
+        <iframe src="https://www.youtube.com/embed/KHrVwCrtZFY?autoplay=1&mute=1&loop=1&playlist=KHrVwCrtZFY&controls=0&showinfo=0&rel=0&modestbranding=1&start=0.3&end=13.7" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
     </div>
 
     <div class="overlay"></div>
 
     <div class="main-container">
         <div class="glass-panel">
-            <h1>Create</h1>
+            <h1>Page Creation</h1>
             <nav class="button-list">
                 <div class="dropdown">
-                    <a href="#" class="btn">Inteligencia Artificial</a>
+                    <a href="https://ai-delta-eosin.vercel.app/" target="_blank" class="btn">IA</a>
                     <div class="dropdown-content">
-                        <a href="https://gemini.google.com/" target="_blank" class="btn btn-sub">Gemini</a>
+                        <a href="https://gemini.google.com/app?hl=es" target="_blank" class="btn btn-sub">Google Gemini</a>
+                        <a href="https://hackerai.co/" target="_blank" class="btn btn-sub">HackerAI</a>
+                        <a href="https://claude.ai/new" target="_blank" class="btn btn-sub">ClaudeAI</a>
                         <a href="https://chatgpt.com/" target="_blank" class="btn btn-sub">ChatGPT</a>
-                        <a href="https://claude.ai/" target="_blank" class="btn btn-sub">Claude</a>
                     </div>
                 </div>
 
                 <div class="dropdown">
                     <a href="https://github.com/" target="_blank" class="btn">GitHub</a>
                     <div class="dropdown-content">
-                        <a href="https://github.com/new" target="_blank" class="btn btn-sub">New Repo</a>
+                        <a href="https://github.com/new" target="_blank" class="btn btn-sub">Nuevo Repositorio</a>
                     </div>
                 </div>
 
@@ -244,49 +275,72 @@
 
         <div class="instruction-panel">
             <div class="lang-container">
-                <button class="btn btn-lang" onclick="setLang('es')">ES</button>
-                <button class="btn btn-lang" onclick="setLang('en')">EN</button>
+                <button class="btn btn-lang" onclick="setLang('es')">Español</button>
+                <button class="btn btn-lang" onclick="setLang('en')">English</button>
             </div>
             <div id="text-target" class="instruction-content">
-                Selecciona un idioma para ver los pasos.
+                <p style="opacity: 0.5; text-align: center; font-size: 0.8rem;">Select language for tutorial</p>
             </div>
         </div>
     </div>
 
     <script>
+        // Cursor
         const cursor = document.getElementById('custom-cursor');
 
-        // Movimiento del cursor con suavizado
         document.addEventListener('mousemove', e => {
             cursor.style.left = e.clientX + 'px';
             cursor.style.top = e.clientY + 'px';
         });
 
-        // Eventos para agrandar y llenar el cursor
-        function updateCursor() {
+        // Actualizamos los listeners para los links dinámicos
+        function updateCursorListeners() {
             const links = document.querySelectorAll('a, button');
             links.forEach(link => {
-                link.addEventListener('mouseenter', () => cursor.classList.add('active'));
-                link.addEventListener('mouseleave', () => cursor.classList.remove('active'));
+                link.addEventListener('mouseenter', () => {
+                    cursor.style.transform = 'translate(-50%, -50%) scale(1.5)';
+                    cursor.style.background = 'rgba(255, 255, 255, 0.9)';
+                });
+                link.addEventListener('mouseleave', () => {
+                    cursor.style.transform = 'translate(-50%, -50%) scale(1)';
+                    cursor.style.background = 'rgba(255, 255, 255, 0.6)';
+                });
             });
         }
-        updateCursor();
+        updateCursorListeners();
 
-        // Parallax sutil del panel
-        const container = document.querySelector('.main-container');
+        // Parallax - Efecto sutil
+        const glassPanel = document.querySelector('.glass-panel');
+        const instructPanel = document.querySelector('.instruction-panel');
+
         document.addEventListener('mousemove', e => {
-            const x = (window.innerWidth / 2 - e.pageX) / 50;
-            const y = (window.innerHeight / 2 - e.pageY) / 50;
-            container.style.transform = `rotateY(${x}deg) rotateX(${y}deg)`;
+            const xAxis = (window.innerWidth / 2 - e.pageX) / 70;
+            const yAxis = (window.innerHeight / 2 - e.pageY) / 70;
+
+            glassPanel.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
+            instructPanel.style.transform = `rotateY(${xAxis * 1.1}deg) rotateX(${yAxis * 1.1}deg)`;
         });
 
+        // Contenido
         const content = {
-            es: "1. Pide el código a la IA.\n2. Súbelo a GitHub (index.html).\n3. Despliega en Vercel.",
-            en: "1. Get code from AI.\n2. Upload to GitHub (index.html).\n3. Deploy via Vercel."
+            es: `INSTRUCCIONES:
+            Comienza solicitando a una IA la creación de un archivo HTML utilizando un prompt.
+            Luego, crea un repositorio en GitHub. Dentro del repositorio, agrega un nuevo archivo llamado "index.html" y pega el código HTML generado.
+            Guarda los cambios en el repositorio para asegurarte de no perder el archivo.
+            Dirígete a Vercel y regístrate o inicia sesión utilizando tu cuenta de GitHub.
+            Una vez dentro, selecciona la opción "Add New Project" y elige el repositorio que creaste.
+            Finalmente, despliega el proyecto.`,
+            en: `INSTRUCTIONS:
+            Start by requesting an AI to create an HTML file using a prompt.
+            Then, create a repository on GitHub. Inside the repository, add a new file called "index.html" and paste the generated HTML code.
+            Save the changes to the repository to ensure you don't lose the file.
+            Go to Vercel and register or log in using your GitHub account.
+            Once logged in, select the "Add New Project" option and choose the repository you created.
+            Finally, expand the project.`
         };
 
-        function setLang(l) {
-            document.getElementById('text-target').innerText = content[l];
+        function setLang(lang) {
+            document.getElementById('text-target').innerText = content[lang];
         }
     </script>
 </body>
