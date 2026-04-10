@@ -3,15 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Page Creation - Mobile Ready</title>
+    <title>Page Creation</title>
     <style>
-        /* Reset de estilos */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            /* Solo quitamos el cursor si hay puntero */
         }
 
         @media (pointer: fine) {
@@ -19,137 +17,137 @@
         }
 
         body {
-            overflow-x: hidden;
+            overflow: hidden;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
+            background-image: url('https://i.imgur.com/XrkgVvS.jpeg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
             background-color: #000;
-            padding: 20px 0;
+            perspective: 2000px; 
+        }
+
+        #petal-container {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .petal {
+            position: absolute;
+            color: #ffb7c5;
+            opacity: 0.15;
+            filter: blur(0.5px);
+            pointer-events: none;
+            will-change: transform;
         }
 
         #custom-cursor {
             width: 20px;
             height: 20px;
-            background: rgba(255, 255, 255, 0.6);
+            background: rgba(255, 255, 255, 0.4);
             border-radius: 50%;
             position: fixed;
             pointer-events: none;
-            z-index: 10000;
-            transition: transform 0.1s ease, background 0.2s ease;
-            box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+            z-index: 1000001;
+            transition: transform 0.1s ease;
             transform: translate(-50%, -50%);
-            display: none; /* Oculto por defecto */
+            display: none;
         }
 
-        /* Solo mostrar cursor en PC */
-        @media (pointer: fine) {
-            #custom-cursor { display: block; }
-        }
-
-        .ambient-glow {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: radial-gradient(circle at 10% 10%, rgba(220, 20, 60, 0.15) 0%, transparent 40%),
-                        radial-gradient(circle at 90% 90%, rgba(139, 0, 0, 0.15) 0%, transparent 40%);
-            z-index: -1;
-            pointer-events: none;
-            animation: glowMove 15s ease infinite alternate;
-        }
-
-        @keyframes glowMove {
-            0% { transform: scale(1); opacity: 0.8; }
-            100% { transform: scale(1.1); opacity: 1; }
-        }
-
-        .video-background {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100vw; height: 100vh;
-            z-index: -2;
-            pointer-events: none;
-            overflow: hidden;
-        }
-
-        .video-background iframe {
-            width: 100vw; height: 56.25vw;
-            min-height: 100vh; min-width: 177.77vh;
-            position: absolute;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-        }
+        @media (pointer: fine) { #custom-cursor { display: block; } }
 
         .overlay {
             position: fixed;
             top: 0; left: 0;
             width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: -1;
+            background: rgba(0, 0, 0, 0.25);
+            z-index: 2;
         }
 
         .main-container {
             position: relative;
-            z-index: 1;
+            z-index: 10;
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 25px; 
             width: 90%;
             max-width: 420px;
             align-items: center;
-            perspective: 1000px;
-            animation: containerAppear 1s ease-out;
-        }
-
-        @keyframes containerAppear {
-            from { opacity: 0; transform: translateY(20px) scale(0.95); }
-            to { opacity: 1; transform: translateY(0) scale(1); }
+            transform-style: preserve-3d;
         }
 
         .glass-panel {
-            padding: 2rem;
             width: 100%;
             background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
-            border-radius: 28px;
+            border-radius: 24px;
             border: 1px solid rgba(255, 255, 255, 0.1);
-            text-align: center;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
-            transition: transform 0.1s ease;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
             transform-style: preserve-3d;
+            transition: transform 0.1s ease-out;
         }
+
+        .header-panel { padding: 1.5rem; position: relative; z-index: 1000; }
+        .buttons-panel { padding: 2rem; }
+        .instruction-panel { padding: 1.2rem; }
 
         h1 {
             color: #fff;
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             font-weight: 300;
-            letter-spacing: 3px;
-            margin-bottom: 1.5rem;
+            letter-spacing: 4px;
+            margin-bottom: 1.2rem;
             text-transform: uppercase;
+            text-align: center;
         }
 
-        .search-container {
-            margin-bottom: 20px;
-            position: relative;
-        }
+        /* --- BUSCADOR: RESULTADOS DEBAJO --- */
+        .search-wrapper { position: relative; width: 100%; }
 
         .search-bar {
             width: 100%;
-            padding: 12px;
+            padding: 12px 15px;
             border-radius: 12px;
             border: 1px solid rgba(255,255,255,0.2);
             background: rgba(255,255,255,0.08);
             color: white;
             outline: none;
-            font-size: 16px; /* Evita zoom automático en iOS */
         }
 
-        .button-list {
-            display: flex;
-            flex-direction: column;
-            gap: 0.8rem;
+        #results-box {
+            position: absolute; /* Cambiado de fixed a absolute para estar debajo del input */
+            top: calc(100% + 8px); 
+            left: 0;
+            width: 100%;
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(30px);
+            border-radius: 15px;
+            border: 1px solid rgba(255,255,255,0.3);
+            z-index: 1000000; 
+            display: none;
+            max-height: 250px;
+            overflow-y: auto;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.8);
         }
+
+        .search-item {
+            padding: 15px;
+            color: #fff;
+            text-decoration: none;
+            display: block;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .search-item:hover { background: rgba(255,255,255,0.15); }
+
+        .button-list { display: flex; flex-direction: column; gap: 0.8rem; }
 
         .btn {
             display: block;
@@ -157,118 +155,99 @@
             color: rgba(255, 255, 255, 0.9);
             text-decoration: none;
             font-size: 0.9rem;
+            letter-spacing: 1.5px;
+            text-align: center;
             border: 1px solid rgba(255, 255, 255, 0.15);
             border-radius: 14px;
             background: rgba(255, 255, 255, 0.02);
             transition: all 0.3s ease;
         }
 
-        /* Hover solo para PC */
-        @media (hover: hover) {
-            .btn:hover {
-                background: rgba(255, 255, 255, 0.1);
-                transform: scale(1.02);
-                border-color: rgba(255, 255, 255, 0.5);
-            }
-        }
+        .btn:hover { background: rgba(255, 255, 255, 0.1); transform: scale(1.02); }
+
+        .dropdown { position: relative; }
 
         .dropdown-content {
-            display: none; /* Cambiado de visibilidad a display para móvil */
+            opacity: 0;
+            visibility: hidden;
+            display: flex;
             flex-direction: column;
             gap: 8px;
-            padding: 10px 0;
-            z-index: 10;
+            transition: 0.3s ease;
         }
 
-        /* En PC se muestra a la derecha, en móvil hacia abajo */
         @media (min-width: 768px) {
             .dropdown-content {
                 position: absolute;
-                left: 105%;
-                top: 50%;
-                transform: translateY(-50%);
-                width: 170px;
+                left: 105%; top: 0;
+                width: 220px;
             }
-            .dropdown:hover .dropdown-content {
-                display: flex;
-            }
-        }
-
-        /* Clase activa para móviles (activada por JS) */
-        .dropdown.active .dropdown-content {
-            display: flex;
-            position: static;
-            transform: none;
-            width: 100%;
-            padding-left: 20px;
+            .dropdown:hover .dropdown-content { opacity: 1; visibility: visible; }
         }
 
         .btn-sub {
-            padding: 10px;
+            background: rgba(15, 15, 15, 0.85) !important; 
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 12px;
             font-size: 0.8rem;
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border-radius: 10px;
+            border-radius: 12px;
+            text-align: center;
+            color: white;
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
         }
+        
+        .btn-sub:hover { background: rgba(30, 30, 30, 1) !important; }
 
-        .instruction-panel {
-            width: 100%;
-            background: rgba(255, 255, 255, 0.04);
-            backdrop-filter: blur(15px);
-            border-radius: 22px;
-            padding: 1.2rem;
-            color: rgba(255, 255, 255, 0.9);
-        }
+        .recomended-tag { font-size: 0.65rem; opacity: 0.7; margin-top: 4px; color: #ffb7c5; }
 
         .instruction-content {
-            background: rgba(0, 0, 0, 0.3);
+            background: rgba(0, 0, 0, 0.4);
             padding: 1rem;
             border-radius: 14px;
-            font-size: 0.8rem;
-            max-height: 200px;
-            overflow-y: auto;
-            text-align: left;
+            color: #fff;
+            font-size: 0.85rem;
+            white-space: pre-line;
         }
     </style>
 </head>
 <body>
 
     <div id="custom-cursor"></div>
-    <div class="ambient-glow"></div>
-
-    <div class="video-background">
-        <iframe src="https://www.youtube.com/embed/KHrVwCrtZFY?autoplay=1&mute=1&loop=1&playlist=KHrVwCrtZFY&controls=0&showinfo=0&rel=0&modestbranding=1" frameborder="0"></iframe>
-    </div>
-
+    <div id="petal-container"></div>
     <div class="overlay"></div>
 
-    <div class="main-container">
-        <div class="glass-panel">
+    <div class="main-container" id="container-parallax">
+        
+        <div class="glass-panel header-panel">
             <h1>Page Creation</h1>
-            
-            <div class="search-container">
+            <div class="search-wrapper">
                 <input type="text" id="main-search" class="search-bar" placeholder="Buscar sitio..." autocomplete="off">
-                <div id="results-box" class="search-results"></div>
+                <div id="results-box"></div>
             </div>
+        </div>
 
+        <div class="glass-panel buttons-panel">
             <nav class="button-list">
-                <div class="dropdown" onclick="toggleDropdown(this)">
-                    <a href="javascript:void(0)" class="btn">IA ▾</a>
+                <div class="dropdown">
+                    <a href="javascript:void(0)" class="btn">IA</a>
                     <div class="dropdown-content">
-                        <a href="https://gemini.google.com/" target="_blank" class="btn btn-sub">Google Gemini</a>
-                        <a href="https://claude.ai/" target="_blank" class="btn btn-sub">ClaudeAI</a>
-                        <a href="https://chatgpt.com/" target="_blank" class="btn btn-sub">ChatGPT</a>
-                        <a href="https://replit.com/" target="_blank" class="btn btn-sub">Replit</a>
-                        <a href="https://lovable.dev/" target="_blank" class="btn btn-sub">Lovable</a>
-                        <a href="https://bolt.new/" target="_blank" class="btn btn-sub">Bolt</a>
-                        <a href="https://v0.app/" target="_blank" class="btn btn-sub">Vercel IA</a>
+                        <a href="https://gemini.google.com/" target="_blank" class="btn-sub">Google Gemini <span class="recomended-tag">(recomendado)</span></a>
+                        <a href="https://claude.ai/" target="_blank" class="btn-sub">ClaudeAI</a>
+                        <a href="https://chatgpt.com/" target="_blank" class="btn-sub">ChatGPT</a>
+                        <a href="https://hackerai.co/" target="_blank" class="btn-sub">HackerAI</a>
+                        <a href="https://replit.com/" target="_blank" class="btn-sub">Replit</a>
+                        <a href="https://lovable.dev/" target="_blank" class="btn-sub">Lovable</a>
+                        <a href="https://bolt.new/" target="_blank" class="btn-sub">Bolt</a>
+                        <a href="https://v0.app/" target="_blank" class="btn-sub">Vercel IA</a>
                     </div>
                 </div>
 
-                <div class="dropdown" onclick="toggleDropdown(this)">
-                    <a href="https://github.com/" target="_blank" class="btn">GitHub ▾</a>
+                <div class="dropdown">
+                    <a href="https://github.com/" target="_blank" class="btn">GitHub</a>
                     <div class="dropdown-content">
-                        <a href="https://github.com/new" target="_blank" class="btn btn-sub">Nuevo Repositorio</a>
+                        <a href="https://github.com/new" target="_blank" class="btn-sub">Nuevo Repositorio</a>
                     </div>
                 </div>
 
@@ -278,58 +257,94 @@
             </nav>
         </div>
 
-        <div class="instruction-panel">
-            <div class="lang-container" style="display:flex; gap:10px; margin-bottom:10px;">
-                <button class="btn" style="flex:1; padding:5px;" onclick="setLang('es')">ES</button>
-                <button class="btn" style="flex:1; padding:5px;" onclick="setLang('en')">EN</button>
+        <div class="glass-panel instruction-panel">
+            <div style="display:flex; gap:10px; margin-bottom:10px;">
+                <button class="btn" style="flex:1; padding:5px; font-size:0.75rem;" onclick="setLang('es')">Español</button>
+                <button class="btn" style="flex:1; padding:5px; font-size:0.75rem;" onclick="setLang('en')">English</button>
             </div>
-            <div id="text-target" class="instruction-content">Selecciona un idioma</div>
+            <div id="text-target" class="instruction-content">Selecciona un idioma para las instrucciones</div>
         </div>
     </div>
 
     <script>
-        // Función para abrir menús en móviles
-        function toggleDropdown(element) {
-            if (window.innerWidth < 768) {
-                element.classList.toggle('active');
-            }
-        }
+        const sites = [
+            { name: "Google Gemini", url: "https://gemini.google.com/" },
+            { name: "ClaudeAI", url: "https://claude.ai/" },
+            { name: "ChatGPT", url: "https://chatgpt.com/" },
+            { name: "HackerAI", url: "https://hackerai.co/" },
+            { name: "Replit", url: "https://replit.com/" },
+            { name: "Lovable", url: "https://lovable.dev/" },
+            { name: "Bolt", url: "https://bolt.new/" },
+            { name: "Vercel IA", url: "https://v0.app/" },
+            { name: "GitHub", url: "https://github.com/" },
+            { name: "Vercel", url: "https://vercel.com/" },
+            { name: "Visor HTML", url: "https://codeshack.io/html-viewer/" },
+            { name: "YouTube", url: "https://www.youtube.com/" }
+        ];
 
-        // Cursor (Solo si hay ratón)
+        const searchInput = document.getElementById('main-search');
+        const resultsBox = document.getElementById('results-box');
+
+        searchInput.addEventListener('input', () => {
+            const query = searchInput.value.toLowerCase();
+            resultsBox.innerHTML = '';
+            if (query.length > 0) {
+                const filtered = sites.filter(s => s.name.toLowerCase().includes(query));
+                if (filtered.length > 0) {
+                    resultsBox.style.display = 'block';
+                    filtered.forEach(site => {
+                        const item = document.createElement('a');
+                        item.href = site.url;
+                        item.target = "_blank";
+                        item.className = 'search-item';
+                        item.textContent = site.name;
+                        resultsBox.appendChild(item);
+                    });
+                } else { resultsBox.style.display = 'none'; }
+            } else { resultsBox.style.display = 'none'; }
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!searchInput.contains(e.target)) resultsBox.style.display = 'none';
+        });
+
         const cursor = document.getElementById('custom-cursor');
         document.addEventListener('mousemove', e => {
-            if (cursor.style.display !== 'none') {
-                cursor.style.left = e.clientX + 'px';
-                cursor.style.top = e.clientY + 'px';
-            }
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
         });
 
-        // Parallax sutil (Solo en pantallas grandes)
-        const glassPanel = document.querySelector('.glass-panel');
-        document.addEventListener('mousemove', e => {
-            if (window.innerWidth > 768) {
-                const xAxis = (window.innerWidth / 2 - e.pageX) / 70;
-                const yAxis = (window.innerHeight / 2 - e.pageY) / 70;
-                glassPanel.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
-            }
-        });
-
-        // Instrucciones
         const content = {
-            es: "INSTRUCCIONES: Pide a una IA un código HTML. Crea un repo en GitHub con un index.html. Ve a Vercel, conecta tu GitHub y despliega el proyecto.",
-            en: "INSTRUCTIONS: Ask an AI for HTML code. Create a GitHub repo with index.html. Go to Vercel, connect your GitHub, and deploy."
+            es: "1. Pide a una IA un código HTML\n2. Crea un repo en GitHub e inserta un archivo llamado index.html\n3. En Vercel, importa ese repo y despliega el proyecto",
+            en: "1. Ask an AI for HTML code\n2. Create a GitHub repo and add a file named index.html\n3. In Vercel, import the repo and deploy the project"
         };
+        function setLang(lang) { document.getElementById('text-target').innerText = content[lang]; }
 
-        function setLang(lang) {
-            document.getElementById('text-target').innerText = content[lang];
-        }
-
-        // Búsqueda simple
-        const searchInput = document.getElementById('main-search');
-        searchInput.addEventListener('input', () => {
-            console.log("Buscando: " + searchInput.value);
-            // Aquí puedes re-integrar la lógica de filtrado de la versión anterior si la necesitas
+        const container = document.getElementById('container-parallax');
+        document.addEventListener('mousemove', (e) => {
+            if (window.innerWidth < 768) return;
+            const x = (window.innerWidth / 2 - e.clientX) / 30;
+            const y = (window.innerHeight / 2 - e.clientY) / 30;
+            container.style.transform = `rotateY(${-x}deg) rotateX(${y}deg)`;
         });
+
+        const petalContainer = document.getElementById('petal-container');
+        function createPetal() {
+            const petal = document.createElement('span');
+            petal.className = 'petal';
+            petal.innerHTML = '🌸';
+            petal.style.left = Math.random() * 100 + 'vw';
+            petal.style.fontSize = Math.random() * 8 + 8 + 'px';
+            const duration = Math.random() * 7 + 8;
+            petal.style.transition = `transform ${duration}s linear, opacity ${duration}s ease-in`;
+            petalContainer.appendChild(petal);
+            setTimeout(() => {
+                petal.style.transform = `translate(${(Math.random() - 0.5) * 150}px, ${window.innerHeight + 50}px) rotate(${Math.random() * 360}deg)`;
+                petal.style.opacity = '0';
+            }, 10);
+            setTimeout(() => petal.remove(), duration * 1000);
+        }
+        setInterval(createPetal, 500);
     </script>
 </body>
 </html>
