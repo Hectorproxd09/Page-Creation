@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Page Creation</title>
+    <title>Page Creation - Mobile Ready</title>
     <style>
         /* Reset de estilos */
         * {
@@ -11,16 +11,21 @@
             padding: 0;
             box-sizing: border-box;
             font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            cursor: none;
+            /* Solo quitamos el cursor si hay puntero */
+        }
+
+        @media (pointer: fine) {
+            * { cursor: none; }
         }
 
         body {
-            overflow: hidden;
+            overflow-x: hidden;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
             background-color: #000;
+            padding: 20px 0;
         }
 
         #custom-cursor {
@@ -34,6 +39,12 @@
             transition: transform 0.1s ease, background 0.2s ease;
             box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
             transform: translate(-50%, -50%);
+            display: none; /* Oculto por defecto */
+        }
+
+        /* Solo mostrar cursor en PC */
+        @media (pointer: fine) {
+            #custom-cursor { display: block; }
         }
 
         .ambient-glow {
@@ -73,7 +84,7 @@
             position: fixed;
             top: 0; left: 0;
             width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.4);
+            background: rgba(0, 0, 0, 0.5);
             z-index: -1;
         }
 
@@ -96,13 +107,13 @@
         }
 
         .glass-panel {
-            padding: 3rem;
+            padding: 2rem;
             width: 100%;
-            background: rgba(255, 255, 255, 0.04);
+            background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border-radius: 28px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             text-align: center;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
             transition: transform 0.1s ease;
@@ -111,129 +122,113 @@
 
         h1 {
             color: #fff;
-            font-size: 2.2rem;
+            font-size: 1.5rem;
             font-weight: 300;
-            letter-spacing: 5px;
-            margin-bottom: 3rem;
+            letter-spacing: 3px;
+            margin-bottom: 1.5rem;
             text-transform: uppercase;
-            text-shadow: 0 0 15px rgba(255, 255, 255, 0.4);
+        }
+
+        .search-container {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .search-bar {
+            width: 100%;
+            padding: 12px;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.2);
+            background: rgba(255,255,255,0.08);
+            color: white;
+            outline: none;
+            font-size: 16px; /* Evita zoom automático en iOS */
         }
 
         .button-list {
             display: flex;
             flex-direction: column;
-            gap: 1.3rem;
+            gap: 0.8rem;
         }
 
         .btn {
             display: block;
-            padding: 16px;
+            padding: 14px;
             color: rgba(255, 255, 255, 0.9);
             text-decoration: none;
-            font-size: 1.05rem;
-            font-weight: 400;
-            letter-spacing: 1.5px;
+            font-size: 0.9rem;
             border: 1px solid rgba(255, 255, 255, 0.15);
             border-radius: 14px;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            background: rgba(255, 255, 255, 0.01);
-            position: relative;
-            z-index: 5;
+            background: rgba(255, 255, 255, 0.02);
+            transition: all 0.3s ease;
         }
 
-        .btn:hover {
-            background: rgba(255, 255, 255, 0.08);
-            color: #fff;
-            transform: scale(1.03) translateZ(20px);
-            border-color: rgba(255, 255, 255, 0.6);
-            box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
-        }
-
-        .dropdown {
-            position: relative;
+        /* Hover solo para PC */
+        @media (hover: hover) {
+            .btn:hover {
+                background: rgba(255, 255, 255, 0.1);
+                transform: scale(1.02);
+                border-color: rgba(255, 255, 255, 0.5);
+            }
         }
 
         .dropdown-content {
-            position: absolute;
-            left: 100%;
-            top: 50%;
-            transform: translateY(-50%);
-            display: flex;
+            display: none; /* Cambiado de visibilidad a display para móvil */
             flex-direction: column;
-            gap: 12px;
-            padding-left: 15px;
-            pointer-events: none;
-            visibility: hidden;
+            gap: 8px;
+            padding: 10px 0;
             z-index: 10;
         }
 
+        /* En PC se muestra a la derecha, en móvil hacia abajo */
+        @media (min-width: 768px) {
+            .dropdown-content {
+                position: absolute;
+                left: 105%;
+                top: 50%;
+                transform: translateY(-50%);
+                width: 170px;
+            }
+            .dropdown:hover .dropdown-content {
+                display: flex;
+            }
+        }
+
+        /* Clase activa para móviles (activada por JS) */
+        .dropdown.active .dropdown-content {
+            display: flex;
+            position: static;
+            transform: none;
+            width: 100%;
+            padding-left: 20px;
+        }
+
         .btn-sub {
-            width: 170px;
-            padding: 11px;
-            font-size: 0.88rem;
-            opacity: 0;
-            transform: translateX(-10px);
-            background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .dropdown:hover .dropdown-content {
-            pointer-events: auto;
-            visibility: visible;
-        }
-
-        .dropdown:hover .btn-sub {
-            opacity: 1;
-            transform: translateX(0);
-            animation: floating 3.5s ease-in-out infinite;
-        }
-
-        .dropdown:hover .btn-sub:nth-child(1) { transition-delay: 0.1s; animation-delay: 0s; }
-        .dropdown:hover .btn-sub:nth-child(2) { transition-delay: 0.2s; animation-delay: 0.6s; }
-        .dropdown:hover .btn-sub:nth-child(3) { transition-delay: 0.3s; animation-delay: 1.2s; }
-        .dropdown:hover .btn-sub:nth-child(4) { transition-delay: 0.4s; animation-delay: 1.8s; }
-
-        @keyframes floating {
-            0% { transform: translateY(0px) translateX(0px); }
-            50% { transform: translateY(-6px) translateX(3px); }
-            100% { transform: translateY(0px) translateX(0px); }
+            padding: 10px;
+            font-size: 0.8rem;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 10px;
         }
 
         .instruction-panel {
             width: 100%;
             background: rgba(255, 255, 255, 0.04);
             backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
             border-radius: 22px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            padding: 1.8rem;
+            padding: 1.2rem;
             color: rgba(255, 255, 255, 0.9);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
-            transition: transform 0.1s ease;
         }
-
-        .lang-container {
-            display: flex; gap: 12px; margin-bottom: 1.2rem;
-        }
-
-        .btn-lang { flex: 1; padding: 7px; font-size: 0.8rem; text-transform: uppercase; }
 
         .instruction-content {
             background: rgba(0, 0, 0, 0.3);
-            padding: 1.2rem;
+            padding: 1rem;
             border-radius: 14px;
-            font-size: 0.9rem;
-            line-height: 1.6;
-            max-height: 160px;
+            font-size: 0.8rem;
+            max-height: 200px;
             overflow-y: auto;
-            white-space: pre-line;
             text-align: left;
         }
-
-        .instruction-content::-webkit-scrollbar { width: 4px; }
-        .instruction-content::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.15); border-radius: 10px; }
     </style>
 </head>
 <body>
@@ -242,7 +237,7 @@
     <div class="ambient-glow"></div>
 
     <div class="video-background">
-        <iframe src="https://www.youtube.com/embed/KHrVwCrtZFY?autoplay=1&mute=1&loop=1&playlist=KHrVwCrtZFY&controls=0&showinfo=0&rel=0&modestbranding=1&start=0.3&end=13.7" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        <iframe src="https://www.youtube.com/embed/KHrVwCrtZFY?autoplay=1&mute=1&loop=1&playlist=KHrVwCrtZFY&controls=0&showinfo=0&rel=0&modestbranding=1" frameborder="0"></iframe>
     </div>
 
     <div class="overlay"></div>
@@ -250,98 +245,91 @@
     <div class="main-container">
         <div class="glass-panel">
             <h1>Page Creation</h1>
+            
+            <div class="search-container">
+                <input type="text" id="main-search" class="search-bar" placeholder="Buscar sitio..." autocomplete="off">
+                <div id="results-box" class="search-results"></div>
+            </div>
+
             <nav class="button-list">
-                <div class="dropdown">
-                    <a href="https://ai-delta-eosin.vercel.app/" target="_blank" class="btn">IA</a>
+                <div class="dropdown" onclick="toggleDropdown(this)">
+                    <a href="javascript:void(0)" class="btn">IA ▾</a>
                     <div class="dropdown-content">
-                        <a href="https://gemini.google.com/app?hl=es" target="_blank" class="btn btn-sub">Google Gemini</a>
-                        <a href="https://hackerai.co/" target="_blank" class="btn btn-sub">HackerAI</a>
-                        <a href="https://claude.ai/new" target="_blank" class="btn btn-sub">ClaudeAI</a>
+                        <a href="https://gemini.google.com/" target="_blank" class="btn btn-sub">Google Gemini</a>
+                        <a href="https://claude.ai/" target="_blank" class="btn btn-sub">ClaudeAI</a>
                         <a href="https://chatgpt.com/" target="_blank" class="btn btn-sub">ChatGPT</a>
+                        <a href="https://replit.com/" target="_blank" class="btn btn-sub">Replit</a>
+                        <a href="https://lovable.dev/" target="_blank" class="btn btn-sub">Lovable</a>
+                        <a href="https://bolt.new/" target="_blank" class="btn btn-sub">Bolt</a>
+                        <a href="https://v0.app/" target="_blank" class="btn btn-sub">Vercel IA</a>
                     </div>
                 </div>
 
-                <div class="dropdown">
-                    <a href="https://github.com/" target="_blank" class="btn">GitHub</a>
+                <div class="dropdown" onclick="toggleDropdown(this)">
+                    <a href="https://github.com/" target="_blank" class="btn">GitHub ▾</a>
                     <div class="dropdown-content">
                         <a href="https://github.com/new" target="_blank" class="btn btn-sub">Nuevo Repositorio</a>
                     </div>
                 </div>
 
                 <a href="https://vercel.com/" target="_blank" class="btn">Vercel</a>
+                <a href="https://codeshack.io/html-viewer/" target="_blank" class="btn">Visor HTML</a>
                 <a href="https://www.youtube.com/" target="_blank" class="btn">YouTube</a>
             </nav>
         </div>
 
         <div class="instruction-panel">
-            <div class="lang-container">
-                <button class="btn btn-lang" onclick="setLang('es')">Español</button>
-                <button class="btn btn-lang" onclick="setLang('en')">English</button>
+            <div class="lang-container" style="display:flex; gap:10px; margin-bottom:10px;">
+                <button class="btn" style="flex:1; padding:5px;" onclick="setLang('es')">ES</button>
+                <button class="btn" style="flex:1; padding:5px;" onclick="setLang('en')">EN</button>
             </div>
-            <div id="text-target" class="instruction-content">
-                <p style="opacity: 0.5; text-align: center; font-size: 0.8rem;">Select language for tutorial</p>
-            </div>
+            <div id="text-target" class="instruction-content">Selecciona un idioma</div>
         </div>
     </div>
 
     <script>
-        // Cursor
-        const cursor = document.getElementById('custom-cursor');
-
-        document.addEventListener('mousemove', e => {
-            cursor.style.left = e.clientX + 'px';
-            cursor.style.top = e.clientY + 'px';
-        });
-
-        // Actualizamos los listeners para los links dinámicos
-        function updateCursorListeners() {
-            const links = document.querySelectorAll('a, button');
-            links.forEach(link => {
-                link.addEventListener('mouseenter', () => {
-                    cursor.style.transform = 'translate(-50%, -50%) scale(1.5)';
-                    cursor.style.background = 'rgba(255, 255, 255, 0.9)';
-                });
-                link.addEventListener('mouseleave', () => {
-                    cursor.style.transform = 'translate(-50%, -50%) scale(1)';
-                    cursor.style.background = 'rgba(255, 255, 255, 0.6)';
-                });
-            });
+        // Función para abrir menús en móviles
+        function toggleDropdown(element) {
+            if (window.innerWidth < 768) {
+                element.classList.toggle('active');
+            }
         }
-        updateCursorListeners();
 
-        // Parallax - Efecto sutil
-        const glassPanel = document.querySelector('.glass-panel');
-        const instructPanel = document.querySelector('.instruction-panel');
-
+        // Cursor (Solo si hay ratón)
+        const cursor = document.getElementById('custom-cursor');
         document.addEventListener('mousemove', e => {
-            const xAxis = (window.innerWidth / 2 - e.pageX) / 70;
-            const yAxis = (window.innerHeight / 2 - e.pageY) / 70;
-
-            glassPanel.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
-            instructPanel.style.transform = `rotateY(${xAxis * 1.1}deg) rotateX(${yAxis * 1.1}deg)`;
+            if (cursor.style.display !== 'none') {
+                cursor.style.left = e.clientX + 'px';
+                cursor.style.top = e.clientY + 'px';
+            }
         });
 
-        // Contenido
+        // Parallax sutil (Solo en pantallas grandes)
+        const glassPanel = document.querySelector('.glass-panel');
+        document.addEventListener('mousemove', e => {
+            if (window.innerWidth > 768) {
+                const xAxis = (window.innerWidth / 2 - e.pageX) / 70;
+                const yAxis = (window.innerHeight / 2 - e.pageY) / 70;
+                glassPanel.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
+            }
+        });
+
+        // Instrucciones
         const content = {
-            es: `INSTRUCCIONES:
-            Comienza solicitando a una IA la creación de un archivo HTML utilizando un prompt.
-            Luego, crea un repositorio en GitHub. Dentro del repositorio, agrega un nuevo archivo llamado "index.html" y pega el código HTML generado.
-            Guarda los cambios en el repositorio para asegurarte de no perder el archivo.
-            Dirígete a Vercel y regístrate o inicia sesión utilizando tu cuenta de GitHub.
-            Una vez dentro, selecciona la opción "Add New Project" y elige el repositorio que creaste.
-            Finalmente, despliega el proyecto.`,
-            en: `INSTRUCTIONS:
-            Start by requesting an AI to create an HTML file using a prompt.
-            Then, create a repository on GitHub. Inside the repository, add a new file called "index.html" and paste the generated HTML code.
-            Save the changes to the repository to ensure you don't lose the file.
-            Go to Vercel and register or log in using your GitHub account.
-            Once logged in, select the "Add New Project" option and choose the repository you created.
-            Finally, expand the project.`
+            es: "INSTRUCCIONES: Pide a una IA un código HTML. Crea un repo en GitHub con un index.html. Ve a Vercel, conecta tu GitHub y despliega el proyecto.",
+            en: "INSTRUCTIONS: Ask an AI for HTML code. Create a GitHub repo with index.html. Go to Vercel, connect your GitHub, and deploy."
         };
 
         function setLang(lang) {
             document.getElementById('text-target').innerText = content[lang];
         }
+
+        // Búsqueda simple
+        const searchInput = document.getElementById('main-search');
+        searchInput.addEventListener('input', () => {
+            console.log("Buscando: " + searchInput.value);
+            // Aquí puedes re-integrar la lógica de filtrado de la versión anterior si la necesitas
+        });
     </script>
 </body>
 </html>
